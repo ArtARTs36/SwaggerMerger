@@ -1,0 +1,26 @@
+{
+    "name": "artarts36/swagger-merger",
+    "description": "Swagger Merger",
+    "type": "library",
+    "require": {
+        "symfony/yaml": "*",
+        "squizlabs/php_codesniffer": "3.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ArtARTs36",
+            "email": "temicska99@mail.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ArtARTs36\\SwaggerMerger\\": "src/"
+        }
+    },
+    "scripts": {
+        "lint": [
+            "./vendor/bin/phpcs --standard=PSR2 src/"
+        ]
+    }
+}
