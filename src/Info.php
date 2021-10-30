@@ -2,6 +2,9 @@
 
 namespace ArtARTs36\SwaggerMerger;
 
+/**
+ * @todo rename to MergingContext
+ */
 class Info
 {
     protected $tagsPrefix;
@@ -40,7 +43,7 @@ class Info
 
     public function isEmpty(): bool
     {
-        return empty($this->descriptionPrefix) && empty($this->tagsPrefix);
+        return $this->descriptionPrefix === '' && $this->tagsPrefix === '';
     }
 
     public function isNotEmpty(): bool

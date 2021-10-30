@@ -1,0 +1,7 @@
+paths:
+  /users:
+    get:
+      summary: get users
+      responses:
+        '200':
+          description: OK
