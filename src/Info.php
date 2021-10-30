@@ -2,9 +2,6 @@
 
 namespace ArtARTs36\SwaggerMerger;
 
-/**
- * @todo rename to MergingContext
- */
 class Info
 {
     protected $tagsPrefix;
