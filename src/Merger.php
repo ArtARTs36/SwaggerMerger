@@ -2,7 +2,6 @@
 
 namespace ArtARTs36\SwaggerMerger;
 
-use ArtARTs36\SwaggerMerger\Context\NullMergingContext;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Yaml\Yaml;
 
