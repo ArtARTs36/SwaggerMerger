@@ -40,7 +40,7 @@ class Info
 
     public function isEmpty(): bool
     {
-        return empty($this->descriptionPrefix) && empty($this->tagsPrefix);
+        return $this->descriptionPrefix === '' && $this->tagsPrefix === '';
     }
 
     public function isNotEmpty(): bool

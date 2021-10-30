@@ -2,6 +2,8 @@
 
 namespace ArtARTs36\SwaggerMerger;
 
+use ArtARTs36\SwaggerMerger\Context\NullMergingContext;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -16,13 +18,13 @@ class Merger
 
     protected $content;
 
-    /** @var Info|null */
     protected $info;
 
     public function __construct(string $rootPath, array $rootContent)
     {
         $this->rootPath = $rootPath;
         $this->content = Arr::allocateIfKeyNotExists($rootContent, 'paths', 'components');
+        $this->info = new Info();
     }
 
     public static function byYamlFile(string $rootPath): Merger
@@ -65,7 +67,7 @@ class Merger
 
         $result = $this->$name($arguments[0]);
 
-        $this->info = null;
+        $this->info = new Info();
 
         return $result;
     }
@@ -95,13 +97,27 @@ class Merger
         return $this->merge(json_decode($input, true));
     }
 
-    public function saveAsJson(string $path = null): bool
+    public function saveAsJson(?string $path = null): bool
     {
         return (bool) file_put_contents($path ?? $this->rootPath, json_encode($this->content));
     }
 
-    protected function merge(array $content): self
+    public function saveAsYaml(?string $path = null): bool
     {
+        return (bool) file_put_contents(
+            $path ?? $this->rootPath,
+            Yaml::dump($this->content, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK)
+        );
+    }
+
+    protected function merge(
+        #[ArrayShape([
+            'openapi' => 'array',
+            'info' => 'array',
+            'paths' => 'array',
+        ])]
+        array $content
+    ): self {
         unset($content['openapi'], $content['info']);
 
         if (! empty($content['paths'])) {
@@ -115,13 +131,11 @@ class Merger
 
     protected function preparePaths(array $paths): array
     {
-        foreach ($paths as $path => &$pathDescription) {
-            unset($this->content['paths'][$path]);
+        if ($this->info->isEmpty()) {
+            return $paths;
+        }
 
-            if ($this->info === null || $this->info->isEmpty()) {
-                continue;
-            }
-
+        foreach ($paths as &$pathDescription) {
             foreach ($pathDescription as &$method) {
                 $method = Arr::prependIfKeyExists($method, 'summary', $this->info->getDescriptionPrefix());
                 $method = Arr::prependIfKeyExists($method, 'description', $this->info->getDescriptionPrefix());
