@@ -27,7 +27,7 @@ class Merger
 
     public static function byYamlFile(string $rootPath): Merger
     {
-        return static::byYaml(file_get_contents($rootPath), $rootPath);
+        return static::byYaml($rootPath, file_get_contents($rootPath));
     }
 
     public static function byYaml(string $input, string $rootPath): Merger
