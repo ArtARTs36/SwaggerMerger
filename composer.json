@@ -3,7 +3,9 @@
     "description": "Swagger Merger",
     "type": "library",
     "require": {
-        "symfony/yaml": "*",
+        "symfony/yaml": "*"
+    },
+    "require-dev": {
         "squizlabs/php_codesniffer": "3.*"
     },
     "license": "MIT",
