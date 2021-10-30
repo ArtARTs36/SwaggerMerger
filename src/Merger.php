@@ -104,7 +104,10 @@ class Merger
 
     public function saveAsYaml(?string $path = null): bool
     {
-        return (bool) file_put_contents($path ?? $this->rootPath, Yaml::dump($this->content,Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK));
+        return (bool) file_put_contents(
+            $path ?? $this->rootPath,
+            Yaml::dump($this->content, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK)
+        );
     }
 
     protected function merge(
